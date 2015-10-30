@@ -26,12 +26,16 @@ from utilities import location, clear, get_full_name, search
 def load_data():
     global school_data
     global students_data
+    global teachers_data
 
-    with open(location('data/school.json')) as school_data:
-        school_data = json.load(open(location('data/school.json')))
+    with open(location('data_tasks_6/school.json')) as school_data:
+       school_data = json.load(open(location('data_tasks_6/school.json')))
 
-    with open(location('data/Students.json')) as students_data:
-        students_data = json.load(open(location('data/Students.json')))
+    with open(location('data_tasks_6/Students.json')) as students_data:
+        students_data = json.load(open(location('data_tasks_6/Students.json')))
+
+    with open(location('data_tasks_6/Teachers.json')) as teachers_data:
+        teachers_data = json.load(open(location('data_tasks_6/Teachers.json')))
 
 # Load data
 load_data()
@@ -71,12 +75,18 @@ if choice == '1':  # INFO
         print()
         class_room = input("Введите класс, для подробной информации по нему \n"
                            " (или Enter для возврата в предыдущее меню):")
-        if class_room in school_data["classes"]:  # FIXME: сообщить, если выбран несуществующий класс
+        if class_room in school_data["classes"]:  # FIXME: (complete)
             print("\nИнформация по %s классу:" % class_room)
-            # TODO: вывести всех учеников и учителей указанного класса
-            print("     Учителя: ...")
-            print("     Ученики: ... ")
+            # TODO(complete)
+            # вывести всех учеников и учителей указанного класса
+            students_in_class = [get_full_name(student)
+                               for student in students_data if student["class"] == class_room ]
+            print("     Ученики: %s " % students_in_class)
+            teachers_in_class = [get_full_name(teacher)
+                               for teacher in teachers_data if class_room in teacher["class"] ]
+            print("     Учителя: %s " % teachers_in_class)
             input("Нажмите Enter для возврата в предыдущее меню")
+        # сообщить, если выбран несуществующий класс
         else:
             print('Такого класса нет')
             input("Нажмите Enter для возврата в предыдущее меню")
